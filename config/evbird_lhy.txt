@@ -1,0 +1,3 @@
+/mnt/ssd/evbird/maque.h5
+/mnt/ssd/evbird/xique_fly.h5
+/mnt/ssd/evbird/heitiane_1.h5

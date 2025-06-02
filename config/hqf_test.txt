@@ -1,0 +1,14 @@
+/mnt/ssd/HQF_h5/bike_bay_hdr.h5
+/mnt/ssd/HQF_h5/boxes.h5
+/mnt/ssd/HQF_h5/desk.h5
+/mnt/ssd/HQF_h5/desk_fast.h5
+/mnt/ssd/HQF_h5/desk_hand_only.h5
+/mnt/ssd/HQF_h5/desk_slow.h5
+/mnt/ssd/HQF_h5/engineering_posters.h5
+/mnt/ssd/HQF_h5/high_texture_plants.h5
+/mnt/ssd/HQF_h5/poster_pillar_1.h5
+/mnt/ssd/HQF_h5/poster_pillar_2.h5
+/mnt/ssd/HQF_h5/reflective_materials.h5
+/mnt/ssd/HQF_h5/slow_and_fast_desk.h5
+/mnt/ssd/HQF_h5/slow_hand.h5
+/mnt/ssd/HQF_h5/still_life.h5

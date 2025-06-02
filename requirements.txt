@@ -1,0 +1,23 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> python=3.10.14
+# $ pip install -r requirements.txt
+dv-processing==1.7.9 # only needed for aedat4 reading
+einops
+event-voxel-builder
+h5py
+hdf5plugin
+matplotlib
+numpy
+opencv-python
+torch==2.4.0
+torchaudio
+torchvision
+torchmetrics
+tqdm
+pyyaml
+pandas
+scikit-image
+IPython
+tensorboard
+ffmpeg # Option for video reading, delete related code if you only want to use OpenCV for video reading
+moviepy==1.0.3 # Version matters

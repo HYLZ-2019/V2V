@@ -1,0 +1,135 @@
+experiment_name: v2v_evflow_10k
+check_val_every_n_epoch: 1
+test_output_dir: results/v2v_evflow_10k
+save_npy: false
+save_png: true
+use_compile: false
+task: flow
+
+module:
+  loss:
+    l1_weight: 1.0
+    optical_flow_source: raft_large
+    raft_num_flow_updates: 12
+
+  normalize_voxels: false
+  model:
+    target: model.model.EVFlowNet
+    params:
+      unet_kwargs:
+        num_bins: 5
+        base_num_channels: 32
+        num_encoders: 4
+        num_residual_blocks: 2
+        num_output_channels: 2
+        skip_type: concat
+        norm: null
+        use_upsample_conv: true
+        kernel_size: 3
+        channel_multiplier: 2
+
+train_stages:
+  - stage_name: stage1
+    max_epochs: 50
+
+    optimizer:
+      target: torch.optim.Adam
+      params:
+        lr: 0.0001
+        weight_decay: 0
+        amsgrad: true
+
+    lr_scheduler:
+      target: torch.optim.lr_scheduler.StepLR
+      params:
+        step_size: 50
+        gamma: 1.0 # This is actually constant LR
+
+    dataset:
+      train_batch_size: 10
+      num_workers: 10
+      val_batch_size: 1 # Because test data has different sizes
+      persistent_workers: true
+      pin_memory: true
+
+      train:
+        - data_file: config/webvid_root.txt
+          class_name: data.v2v_datasets.WebvidDatasetV2
+          video_list_file: config/webvid10000_full.txt
+          data_source_name: webvid
+          video_reader: opencv
+          sequence_length: 40
+          pause_granularity: 5
+          proba_pause_when_running: 0.0102
+          proba_pause_when_paused: 0.9791
+          crop_size: 128
+          random_flip: true
+          num_bins: 5
+          min_resize_scale: 1
+          max_resize_scale: 1
+          frames_per_bin: 1
+          threshold_range: [0.05, 2]
+          max_thres_pos_neg_gap: 1.5
+          base_noise_std_range: [0, 0.1]
+          hot_pixel_std_range: [0, 10]
+          max_samples_per_shot: 10
+          output_additional_frame: true
+
+      val:
+        - data_file: config/hqf_test.txt
+          class_name: data.testh5.TestH5Dataset
+          dataset_name: hqf
+          num_bins: 5
+          sequence_length: 80
+          interpolate_bins: false
+          output_additional_frame: true
+          image_range: 1
+          max_samples: 1
+        - data_file: config/mvsec_test_flow.txt
+          class_name: data.testh5.TestH5FlowDataset
+          dataset_name: mvsec
+          num_bins: 5
+          sequence_length: 80
+          interpolate_bins: false
+          output_additional_frame: true
+          image_range: 1
+          
+test_stage:
+  test_batch_size: 1
+  test_num_workers: 16
+  test:
+    # - data_file: config/evaid_test.txt
+    #   class_name: data.testh5.TestH5Dataset
+    #   dataset_name: evaid
+    #   num_bins: 5
+    #   sequence_length: 10
+    #   interpolate_bins: false
+    #   output_additional_frame: true
+    #   image_range: 1
+    #   max_samples: 4
+    - data_file: config/ijrr_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: ijrr
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: false
+      output_additional_frame: true
+      image_range: 1
+      max_samples: 2
+    - data_file: config/hqf_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: hqf
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: false
+      output_additional_frame: true
+      image_range: 1
+      max_samples: 2
+    - data_file: config/mvsec_test_flow.txt
+      class_name: data.testh5.TestH5FlowDataset
+      dataset_name: mvsec
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: false
+      output_additional_frame: true
+      image_range: 1

@@ -1,0 +1,128 @@
+experiment_name: ablation_e2vid_esim
+check_val_every_n_epoch: 6
+test_output_dir: results/ablation_e2vid_esim
+use_compile: false
+
+module:
+  loss:
+    lpips_weight: 1.0
+    lpips_type: alex
+    l2_weight: 0
+    l1_weight: 0
+    ssim_weight: 0
+    temporal_consistency_weight: 1.0
+    optical_flow_source: gt
+
+  normalize_voxels: false
+  model:
+    target: model.model.E2VIDRecurrent
+    params:
+      unet_kwargs:
+        num_bins: 5
+        skip_type: sum
+        recurrent_block_type: convlstm
+        num_encoders: 3
+        base_num_channels: 32
+        num_residual_blocks: 2
+        use_upsample_conv: true
+        final_activation: ""
+        norm: none
+
+train_stages:
+  - stage_name: stage1
+    max_epochs: 500
+
+    optimizer:
+      target: torch.optim.Adam
+      params:
+        lr: 0.0001
+        weight_decay: 0
+        amsgrad: true
+
+    lr_scheduler:
+      target: torch.optim.lr_scheduler.StepLR
+      params:
+        step_size: 50
+        gamma: 1.0 # This is actually constant LR
+        
+    dataset:
+      train_batch_size: 12
+      num_workers: 9
+      val_batch_size: 1 # Because test data has different sizes
+      persistent_workers: true
+      pin_memory: true
+
+      train:
+        - data_file: config/esim_h5.txt
+          class_name: data.esim_dataset.ESIMH5Dataset
+          data_source_name: esim
+          sequence_length: 40
+          proba_pause_when_running: 0.05
+          proba_pause_when_paused: 0.9
+          noise_std: 0.1
+          noise_fraction: 1.0
+          hot_pixel_std: 0.1
+          max_hot_pixel_fraction: 0.001
+          random_crop_size: 128
+          random_flip: true
+
+      val:
+        - data_file: config/evaid_test.txt
+          class_name: data.testh5.TestH5Dataset
+          dataset_name: evaid
+          num_bins: 5
+          sequence_length: 80
+          interpolate_bins: true
+          max_samples: 1 # Limit val time, 720p runs really slow
+          image_range: 1
+        - data_file: config/ijrr_test.txt
+          class_name: data.testh5.TestH5Dataset
+          dataset_name: ijrr
+          num_bins: 5
+          sequence_length: 80
+          interpolate_bins: true
+          image_range: 1
+        - data_file: config/hqf_test.txt
+          class_name: data.testh5.TestH5Dataset
+          dataset_name: hqf
+          num_bins: 5
+          sequence_length: 80
+          interpolate_bins: true
+          image_range: 1
+        - data_file: config/mvsec_test.txt
+          class_name: data.testh5.TestH5Dataset
+          dataset_name: mvsec
+          num_bins: 5
+          sequence_length: 80
+          interpolate_bins: true
+          image_range: 1
+          
+test_stage:
+  need_do_gamma: False
+  test_batch_size: 1
+  test_num_workers: 16
+  test:
+    - data_file: config/evaid_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: evaid
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true
+    - data_file: config/ijrr_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: ijrr
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true
+    - data_file: config/hqf_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: hqf
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true
+    - data_file: config/mvsec_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: mvsec
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true

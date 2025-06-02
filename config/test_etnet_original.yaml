@@ -1,0 +1,47 @@
+experiment_name: etnet_original
+test_output_dir: results/etnet_original
+
+module:
+  loss:
+    lpips_weight: 1.0
+    lpips_type: alex
+    l2_weight: 0
+    l1_weight: 0
+    ssim_weight: 0
+    temporal_consistency_weight: 1.0
+
+  normalize_voxels: false
+  model:
+    target: model.eitr.eitr.EITR
+    params:
+      eitr_kwargs:
+        num_bins: 5
+        norm: none
+          
+test_stage:
+  test_num_workers: 4
+  test:
+    - data_file: config/evaid_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: evaid
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true
+    - data_file: config/ijrr_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: ijrr
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true
+    - data_file: config/hqf_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: hqf
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true
+    - data_file: config/mvsec_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: mvsec
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true

@@ -1,0 +1,140 @@
+experiment_name: v2v_hyper_10k
+test_output_dir: results/v2v_hyper_10k
+check_val_every_n_epoch: 1
+use_compile: false
+
+module:
+  loss:
+    lpips_weight: 1.0
+    lpips_type: vgg
+    l2_weight: 0
+    l1_weight: 1.0
+    ssim_weight: 0
+    temporal_consistency_weight: 1.0
+    optical_flow_source: raft_small
+    temporal_consistency_L0: 20
+
+  normalize_voxels: false
+  model:
+    target: model.hyper_model.HyperE2VID
+    params:
+      unet_kwargs:
+        num_bins: 5
+        skip_type: sum
+        recurrent_block_type: convlstm
+        kernel_size: 5
+        channel_multiplier: 2
+        num_encoders: 3
+        base_num_channels: 32
+        num_residual_blocks: 2
+        use_upsample_conv: true
+        norm: none
+        num_output_channels: 1
+        use_dynamic_decoder: true # Key difference of HyperE2VID
+  hyper_epochs: 16 # Number of curriculum epochs
+
+train_stages:
+  - stage_name: stage1
+    max_epochs: 80
+
+    optimizer:
+      target: torch.optim.Adam
+      params:
+        lr: 0.001
+        weight_decay: 0
+        amsgrad: true
+
+    lr_scheduler:
+      target: torch.optim.lr_scheduler.StepLR
+      params:
+        step_size: 50
+        gamma: 1.0 # This is actually constant LR
+
+    dataset:
+      train_batch_size: 12
+      num_workers: 9
+      val_batch_size: 1 # Because test data has different sizes
+      persistent_workers: true
+      pin_memory: true
+
+      train:
+        - data_file: config/webvid_root.txt
+          class_name: data.v2v_datasets.WebvidDatasetV2
+          video_list_file: config/webvid10000_unfiltered.txt
+          data_source_name: webvid
+          video_reader: opencv
+          sequence_length: 40
+          pause_granularity: 5
+          proba_pause_when_running: 0.0102
+          proba_pause_when_paused: 0.9791
+          crop_size: 128
+          random_flip: true
+          num_bins: 5
+          min_resize_scale: 1
+          max_resize_scale: 1
+          frames_per_bin: 1
+          threshold_range: [0.05, 2]
+          max_thres_pos_neg_gap: 1.5
+          base_noise_std_range: [0, 0.1]
+          hot_pixel_std_range: [0, 10]
+          max_samples_per_shot: 10
+
+      val:
+        - data_file: config/evaid_test.txt
+          class_name: data.testh5.TestH5Dataset
+          dataset_name: evaid
+          num_bins: 5
+          sequence_length: 80
+          interpolate_bins: false
+          max_samples: 1 # Limit val time, 720p runs really slow
+          image_range: 1
+        - data_file: config/ijrr_test.txt
+          class_name: data.testh5.TestH5Dataset
+          dataset_name: ijrr
+          num_bins: 5
+          sequence_length: 80
+          interpolate_bins: false
+          image_range: 1
+        - data_file: config/hqf_test.txt
+          class_name: data.testh5.TestH5Dataset
+          dataset_name: hqf
+          num_bins: 5
+          sequence_length: 80
+          interpolate_bins: false
+          image_range: 1
+        - data_file: config/mvsec_test.txt
+          class_name: data.testh5.TestH5Dataset
+          dataset_name: mvsec
+          num_bins: 5
+          sequence_length: 80
+          interpolate_bins: false
+          image_range: 1
+  
+test_stage:
+  test_batch_size: 1
+  test_num_workers: 4
+  test:
+    - data_file: config/evaid_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: evaid
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: false
+    - data_file: config/ijrr_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: ijrr
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: false
+    - data_file: config/hqf_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: hqf
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: false
+    - data_file: config/mvsec_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: mvsec
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: false

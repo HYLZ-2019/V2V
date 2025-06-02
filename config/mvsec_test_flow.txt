@@ -1,0 +1,5 @@
+/mnt/ssd/MVSEC_wflow/indoor_flying1.h5
+/mnt/ssd/MVSEC_wflow/indoor_flying2.h5
+/mnt/ssd/MVSEC_wflow/indoor_flying3.h5
+/mnt/ssd/MVSEC_wflow/outdoor_day1.h5
+/mnt/ssd/MVSEC_wflow/outdoor_day2.h5

@@ -1,0 +1,11 @@
+/mnt/ssd/EventAid-R-h5/ball.h5
+/mnt/ssd/EventAid-R-h5/bear.h5
+/mnt/ssd/EventAid-R-h5/box.h5
+/mnt/ssd/EventAid-R-h5/building.h5
+/mnt/ssd/EventAid-R-h5/outdoor.h5
+/mnt/ssd/EventAid-R-h5/playball.h5
+/mnt/ssd/EventAid-R-h5/room1.h5
+/mnt/ssd/EventAid-R-h5/sculpture.h5
+/mnt/ssd/EventAid-R-h5/toy.h5
+/mnt/ssd/EventAid-R-h5/traffic.h5
+/mnt/ssd/EventAid-R-h5/wall.h5

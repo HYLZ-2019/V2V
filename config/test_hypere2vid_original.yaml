@@ -1,0 +1,58 @@
+experiment_name: hypere2vid_original
+test_output_dir: results/hypere2vid_original
+
+module:
+  loss:
+    lpips_weight: 1.0
+    lpips_type: alex
+    l2_weight: 0
+    l1_weight: 0
+    ssim_weight: 0
+    temporal_consistency_weight: 1.0
+
+  normalize_voxels: false
+  model:
+    target: model.hyper_model.HyperE2VID
+    params:
+      unet_kwargs:
+        num_bins: 5
+        skip_type: sum
+        recurrent_block_type: convlstm
+        kernel_size: 5
+        channel_multiplier: 2
+        num_encoders: 3
+        base_num_channels: 32
+        num_residual_blocks: 2
+        use_upsample_conv: true
+        norm: none
+        num_output_channels: 1
+        use_dynamic_decoder: true # Key difference of HyperE2VID
+          
+test_stage:
+  test_batch_size: 1
+  test_num_workers: 4
+  test:
+    - data_file: config/evaid_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: evaid
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true
+    - data_file: config/ijrr_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: ijrr
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true
+    - data_file: config/hqf_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: hqf
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true
+    - data_file: config/mvsec_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: mvsec
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: true

@@ -1,0 +1,6 @@
+/mnt/ssd/MVSEC_cut/indoor_flying1.h5
+/mnt/ssd/MVSEC_cut/indoor_flying2.h5
+/mnt/ssd/MVSEC_cut/indoor_flying3.h5
+/mnt/ssd/MVSEC_cut/indoor_flying4.h5
+/mnt/ssd/MVSEC_cut/outdoor_day1.h5
+/mnt/ssd/MVSEC_cut/outdoor_day2.h5

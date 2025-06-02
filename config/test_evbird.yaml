@@ -1,0 +1,42 @@
+experiment_name: v2v_e2vid_10k
+test_output_dir: results/v2v_e2vid_10k
+
+module:
+  loss:
+    lpips_weight: 1.0
+    lpips_type: vgg
+    l2_weight: 0
+    l1_weight: 1.0
+    ssim_weight: 0
+    temporal_consistency_weight: 1.0
+    optical_flow_source: raft_small
+    temporal_consistency_L0: 20
+
+  normalize_voxels: false
+  model:
+    target: model.model.E2VIDRecurrent
+    params:
+      unet_kwargs:
+        num_bins: 5
+        skip_type: sum
+        recurrent_block_type: convlstm
+        num_encoders: 3
+        base_num_channels: 32
+        num_residual_blocks: 2
+        use_upsample_conv: true
+        final_activation: ""
+        norm: none
+          
+test_stage:
+  test_batch_size: 1
+  test_num_workers: 4
+  test:
+    - data_file: config/evbird_lhy.txt
+      class_name: data.testh5.FPS_H5Dataset
+      dataset_name: evbird
+      FPS: 100
+      H: 260
+      W: 346
+      num_bins: 5
+      sequence_length: 80
+      interpolate_bins: false

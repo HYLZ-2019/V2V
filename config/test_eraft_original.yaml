@@ -1,0 +1,66 @@
+experiment_name: eraft_original
+test_output_dir: results/eraft_original
+save_npy: false
+save_png: true
+use_compile: false
+task: flow
+
+module:
+  forward_type: eraft
+
+  loss:
+    l1_weight: 1.0
+    optical_flow_source: raft_large
+    raft_num_flow_updates: 12
+
+  normalize_voxels: false
+  model:
+    target: model.eraft.eraft.ERAFT
+    params:
+      config:
+        subtype: warm_start
+      n_first_channels: 15
+              
+test_stage:
+  test_batch_size: 1
+  test_num_workers: 16
+  test:
+    - data_file: config/evaid_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: evaid
+      num_bins: 15
+      sequence_length: 10
+      interpolate_bins: true
+      output_additional_frame: true
+      output_additional_evs: true
+      image_range: 1
+      max_samples: 2
+    - data_file: config/ijrr_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: ijrr
+      num_bins: 15
+      sequence_length: 80
+      interpolate_bins: true
+      output_additional_frame: true
+      output_additional_evs: true
+      image_range: 1
+      max_samples: 2
+    - data_file: config/hqf_test.txt
+      class_name: data.testh5.TestH5Dataset
+      dataset_name: hqf
+      num_bins: 15
+      sequence_length: 80
+      interpolate_bins: true
+      output_additional_frame: true
+      output_additional_evs: true
+      image_range: 1
+      max_samples: 2
+    - data_file: config/mvsec_test_flow.txt
+      class_name: data.testh5.TestH5FlowDataset
+      dataset_name: mvsec
+      num_bins: 15
+      sequence_length: 80
+      interpolate_bins: true
+      output_additional_frame: true
+      output_additional_evs: true
+      image_range: 1

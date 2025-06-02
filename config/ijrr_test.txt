@@ -1,0 +1,7 @@
+/mnt/ssd/IJRR_cut/boxes_6dof.h5
+/mnt/ssd/IJRR_cut/calibration.h5
+/mnt/ssd/IJRR_cut/dynamic_6dof.h5
+/mnt/ssd/IJRR_cut/office_zigzag.h5
+/mnt/ssd/IJRR_cut/poster_6dof.h5
+/mnt/ssd/IJRR_cut/shapes_6dof.h5
+/mnt/ssd/IJRR_cut/slider_depth.h5
