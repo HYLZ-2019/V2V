@@ -32,7 +32,7 @@ We provide the following configurations:
 | train_ablation_e2vid_filtered.yaml | E2VID  | E2VID       | √          | ×               |
 | train_ablation_e2vid_hdr.yaml      | E2VID  | E2VID       | √          | ×               |
 
-The code for the model designs E2VID, ETNet, HyperE2VID, NerNet, EvFlow and ERAFT are adapted from their original codebases with small modifications. Please cite the original papers if you use these models.
+The code for the model designs [E2VID](https://github.com/TimoStoff/event_cnn_minimal), [ETNet](https://github.com/WarranWeng/ET-Net), [HyperE2VID](https://github.com/ercanburak/HyperE2VID/), [NerNet](https://github.com/Liu-haoyue/NER-Net), [EvFlow](https://github.com/TimoStoff/event_cnn_minimal) and [ERAFT](https://github.com/uzh-rpg/E-RAFT) are adapted from their original codebases with small modifications. Please cite the original papers if you use these models.
 
 The `original` configurations can be used to test the original checkpoints of the baseline models, so performance benchmarking can be done conveniently and with aligned standards. The `original` checkpoint files we provide are directly converted from the original weights using scripts such as `scripts/convert_checkpoint_from_original.py`. If you are an author of the original paper and find it inappropriate for us to redistribute your weights, please contact us and we will remove them.
 
