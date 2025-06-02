@@ -1,6 +1,6 @@
 # V2V: Scaling Event-Based Vision through Efficient Video-to-Voxel Simulation
 
-This is the code for the paper "V2V: Scaling Event-Based Vision through Efficient Video-to-Voxel Simulation". We provide code for training and testing several models for event-based video reconstruction and optical flow estimation.
+This is the code for the paper ["V2V: Scaling Event-Based Vision through Efficient Video-to-Voxel Simulation"](https://arxiv.org/abs/2505.16797). We provide code for training and testing several models for event-based video reconstruction and optical flow estimation.
 
 ## Experiment Configurations
 
