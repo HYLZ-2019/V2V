@@ -27,6 +27,7 @@ We provide the following configurations:
 | train_v2v_hyper_10k.yaml           | E2VID  | HyperE2VID  | √          | √               |
 | train_v2v_evflow_10k.yaml          | Flow   | EvFlow      | √          | √               |
 | train_v2v_eraft_10k.yaml           | Flow   | ERAFT       | √          | √               |
+| train_ablation_e2vid_esim.yaml     | E2VID  | E2VID       | √          | ×               |
 | train_ablation_e2vid_10k_fixed.yaml| E2VID  | E2VID       | √          | ×               |
 | train_ablation_e2vid_filtered.yaml | E2VID  | E2VID       | √          | ×               |
 | train_ablation_e2vid_hdr.yaml      | E2VID  | E2VID       | √          | ×               |
