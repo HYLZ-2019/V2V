@@ -74,7 +74,7 @@ If you find this code useful, please cite our V2V paper:
 @InProceedings{lou2025v2v,
   title={V2V: Scaling Event-Based Vision through Efficient Video-to-Voxel Simulation},
   author={Lou, Hanyue and Liang, Jinxiu and Teng, Minggui and Wang, Yi and Shi, Boxin},
-  booktitle={arXiv preprint arXiv:2505.16797},
+  booktitle={NeurIPS},
   year={2025}
 }
 ```
